@@ -1,0 +1,25 @@
+# top-most EditorConfig file
+root = true
+
+# Don't use tabs for indentation.
+[*]
+charset = utf-8
+end_of_line = unset
+indent_style = space
+# (Please don't specify an indent_size here; that has too many unintended consequences.)
+
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{kt,md,cs,py,java,swift,puml}]
+end_of_line = lf
+
+[*.{kt,md,cs,py,java,swift}]
+indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{tsx,ts,js,puml}]
+indent_size = 2
+
