@@ -1,3 +1,4 @@
+import { Grid } from "@mui/material";
 import React, { useRef, useState } from "react";
 import ReactFlow, {
   removeElements,
@@ -139,7 +140,7 @@ const App = () => {
     event.preventDefault();
     const type = event.dataTransfer.getData("application/reactflow");
     if (reactFlowWrapper.current != null) {
-      console.log(reactFlowWrapper.current)
+      console.log(reactFlowWrapper.current);
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
       if (reactFlowInstance != null) {
         const position = reactFlowInstance.project({
@@ -165,38 +166,46 @@ const App = () => {
   return (
     <>
       <ReactFlowProvider>
-        <div style={{ height: 300 }} ref={reactFlowWrapper}>
-          <ReactFlow
-            elements={elements}
-            onElementsRemove={onElementsRemove}
-            onConnect={onConnect}
-            deleteKeyCode={46}
-            onLoad={onLoad}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-          >
-            {minimap}
-            <Controls />
-            {background}
-          </ReactFlow>
-        </div>
-        <DragPanel />
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <DragPanel />
+          </Grid>
+          <Grid item xs={8}>
+            <div style={{ height: 300 }} ref={reactFlowWrapper}>
+              <ReactFlow
+                elements={elements}
+                onElementsRemove={onElementsRemove}
+                onConnect={onConnect}
+                deleteKeyCode={46}
+                onLoad={onLoad}
+                onDrop={onDrop}
+                onDragOver={onDragOver}
+              >
+                {minimap}
+                <Controls />
+                {background}
+              </ReactFlow>
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <div>
+              <div>
+                <label>label:</label>
+                <input
+                // value={nodeName}
+                // onChange={(evt) => setNodeName(evt.target.value)}
+                />
+              </div>
+              <div>
+                <label>background:</label>
+                <input
+                //  value={nodeBg} onChange={(evt) => setNodeBg(evt.target.value)}
+                />
+              </div>
+            </div>
+          </Grid>
+        </Grid>
       </ReactFlowProvider>
-      <div>
-        <div>
-          <label>label:</label>
-          <input
-          // value={nodeName}
-          // onChange={(evt) => setNodeName(evt.target.value)}
-          />
-        </div>
-        <div>
-          <label>background:</label>
-          <input
-          //  value={nodeBg} onChange={(evt) => setNodeBg(evt.target.value)}
-          />
-        </div>
-      </div>
     </>
   );
 };
