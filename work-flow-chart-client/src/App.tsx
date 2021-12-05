@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ReactFlow, {
   removeElements,
   addEdge,
@@ -83,7 +83,12 @@ const DragPanel = () => {
   );
 };
 
+let id = 0;
+const getId = () => `dndnode_${id++}`;
+
 const App = () => {
+  const reactFlowWrapper = useRef<any | null>(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState<any | null>(null);
   const [elements, setElements] = useState<any>(initialElements);
   /**
    * Called when user removes node or edge
@@ -122,6 +127,36 @@ const App = () => {
     />
   );
 
+  const onLoad = (_reactFlowInstance: any) =>
+    setReactFlowInstance(_reactFlowInstance);
+
+  const onDragOver = (event: any) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  };
+
+  const onDrop = (event: any) => {
+    event.preventDefault();
+    const type = event.dataTransfer.getData("application/reactflow");
+    if (reactFlowWrapper.current != null) {
+      console.log(reactFlowWrapper.current)
+      const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+      if (reactFlowInstance != null) {
+        const position = reactFlowInstance.project({
+          x: event.clientX - reactFlowBounds.left,
+          y: event.clientY - reactFlowBounds.top,
+        });
+        const newNode = {
+          id: getId(),
+          type,
+          position,
+          data: { label: `${type} node` },
+        };
+        setElements((es: any) => es.concat(newNode));
+      }
+    }
+  };
+
   /**
    * Background component
    */
@@ -130,12 +165,15 @@ const App = () => {
   return (
     <>
       <ReactFlowProvider>
-        <div style={{ height: 300 }}>
+        <div style={{ height: 300 }} ref={reactFlowWrapper}>
           <ReactFlow
             elements={elements}
             onElementsRemove={onElementsRemove}
             onConnect={onConnect}
             deleteKeyCode={46}
+            onLoad={onLoad}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
           >
             {minimap}
             <Controls />
