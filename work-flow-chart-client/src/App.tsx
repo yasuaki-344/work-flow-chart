@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import ReactFlow, { removeElements, addEdge } from "react-flow-renderer";
+import ReactFlow, {
+  removeElements,
+  addEdge,
+  Elements,
+  Edge,
+  Connection,
+} from "react-flow-renderer";
 import "./App.css";
 
 const initialElements = [
@@ -9,7 +15,6 @@ const initialElements = [
     data: { label: "Node 1" },
     position: { x: 250, y: 5 },
   },
-  // you can also pass a React Node as a label
   {
     id: "2",
     data: { label: "Node 2" },
@@ -27,16 +32,34 @@ const initialElements = [
     data: { label: "Node4" },
     position: { x: 300, y: 200 },
   },
-  { id: "e1-2", source: "1", target: "2", animated: false },
-  { id: "e2-3", source: "2", target: "3" },
+  {
+    id: "e1-2",
+    source: "1",
+    target: "2",
+    type: "step",
+    label: "edge label",
+    animated: false,
+  },
+  { id: "e2-3", source: "2", target: "3", type: "smoothstep" },
 ];
 
 const App = () => {
   const [elements, setElements] = useState<any>(initialElements);
-  const onElementsRemove = (elementsToRemove: any) =>
-    setElements((els: any) => removeElements(elementsToRemove, els));
-  const onConnect = (params: any) =>
-    setElements((els: any) => addEdge(params, els));
+  /**
+   * Called when user removes node or edge
+   * @param elementsToRemove
+   * @returns
+   */
+  const onElementsRemove = (elementsToRemove: Elements) =>
+    setElements((els: Elements) => removeElements(elementsToRemove, els));
+
+  /**
+   * Called when user connects two nodes
+   * @param params
+   * @returns
+   */
+  const onConnect = (params: Edge<any> | Connection) =>
+    setElements((els: Elements) => addEdge(params, els));
 
   return (
     <div style={{ height: 300 }}>
