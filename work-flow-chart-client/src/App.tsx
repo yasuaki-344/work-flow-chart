@@ -8,6 +8,7 @@ import ReactFlow, {
   Controls,
   Background,
   MiniMap,
+  ReactFlowProvider,
 } from "react-flow-renderer";
 import "./App.css";
 
@@ -45,6 +46,42 @@ const initialElements = [
   },
   { id: "e2-3", source: "2", target: "3", type: "smoothstep" },
 ];
+
+const DragPanel = () => {
+  const onDragStart = (event: any, nodeType: any) => {
+    event.dataTransfer.setData("application/reactflow", nodeType);
+    event.dataTransfer.effectAllowed = "move";
+  };
+
+  return (
+    <aside>
+      <div className="description">
+        You can drag these nodes to the pane on the right.
+      </div>
+      <div
+        className="dndnode input"
+        onDragStart={(event) => onDragStart(event, "input")}
+        draggable
+      >
+        Input Node
+      </div>
+      <div
+        className="dndnode"
+        onDragStart={(event) => onDragStart(event, "default")}
+        draggable
+      >
+        Default Node
+      </div>
+      <div
+        className="dndnode output"
+        onDragStart={(event) => onDragStart(event, "output")}
+        draggable
+      >
+        Output Node
+      </div>
+    </aside>
+  );
+};
 
 const App = () => {
   const [elements, setElements] = useState<any>(initialElements);
@@ -92,18 +129,21 @@ const App = () => {
 
   return (
     <>
-      <div style={{ height: 300 }}>
-        <ReactFlow
-          elements={elements}
-          onElementsRemove={onElementsRemove}
-          onConnect={onConnect}
-          deleteKeyCode={46}
-        >
-          {minimap}
-          <Controls />
-          {background}
-        </ReactFlow>
-      </div>
+      <ReactFlowProvider>
+        <div style={{ height: 300 }}>
+          <ReactFlow
+            elements={elements}
+            onElementsRemove={onElementsRemove}
+            onConnect={onConnect}
+            deleteKeyCode={46}
+          >
+            {minimap}
+            <Controls />
+            {background}
+          </ReactFlow>
+        </div>
+        <DragPanel />
+      </ReactFlowProvider>
       <div>
         <div>
           <label>label:</label>
