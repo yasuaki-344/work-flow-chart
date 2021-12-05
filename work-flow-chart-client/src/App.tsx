@@ -64,6 +64,32 @@ const App = () => {
   const onConnect = (params: Edge<any> | Connection) =>
     setElements((els: Elements) => addEdge(params, els));
 
+  /**
+   * minimap setting
+   */
+  const minimap = (
+    <MiniMap
+      nodeStrokeColor={(n) => {
+        if (n.style?.background) return n.style.background.toString();
+        if (n.type === "input") return "#0041d0";
+        if (n.type === "output") return "#ff0072";
+        if (n.type === "default") return "#1a192b";
+        return "#eee";
+      }}
+      nodeColor={(n) => {
+        if (n.style?.background) return n.style.background.toString();
+
+        return "#fff";
+      }}
+      nodeBorderRadius={2}
+    />
+  );
+
+  /**
+   * Background component
+   */
+  const background = <Background color="#aaa" gap={16} />;
+
   return (
     <div style={{ height: 300 }}>
       <ReactFlow
@@ -72,23 +98,9 @@ const App = () => {
         onConnect={onConnect}
         deleteKeyCode={46}
       >
-        <MiniMap
-          nodeStrokeColor={(n) => {
-            if (n.style?.background) return n.style.background.toString();
-            if (n.type === "input") return "#0041d0";
-            if (n.type === "output") return "#ff0072";
-            if (n.type === "default") return "#1a192b";
-            return "#eee";
-          }}
-          nodeColor={(n) => {
-            if (n.style?.background) return n.style.background.toString();
-
-            return '#fff';
-          }}
-          nodeBorderRadius={2}
-        />
+        {minimap}
         <Controls />
-        <Background color="#aaa" gap={16} />
+        {background}
       </ReactFlow>
     </div>
   );
