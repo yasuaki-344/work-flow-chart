@@ -91,18 +91,35 @@ const App = () => {
   const background = <Background color="#aaa" gap={16} />;
 
   return (
-    <div style={{ height: 300 }}>
-      <ReactFlow
-        elements={elements}
-        onElementsRemove={onElementsRemove}
-        onConnect={onConnect}
-        deleteKeyCode={46}
-      >
-        {minimap}
-        <Controls />
-        {background}
-      </ReactFlow>
-    </div>
+    <>
+      <div style={{ height: 300 }}>
+        <ReactFlow
+          elements={elements}
+          onElementsRemove={onElementsRemove}
+          onConnect={onConnect}
+          deleteKeyCode={46}
+        >
+          {minimap}
+          <Controls />
+          {background}
+        </ReactFlow>
+      </div>
+      <div>
+        <div>
+          <label>label:</label>
+          <input
+          // value={nodeName}
+          // onChange={(evt) => setNodeName(evt.target.value)}
+          />
+        </div>
+        <div>
+          <label>background:</label>
+          <input
+          //  value={nodeBg} onChange={(evt) => setNodeBg(evt.target.value)}
+          />
+        </div>
+      </div>
+    </>
   );
 };
 
