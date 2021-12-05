@@ -5,6 +5,9 @@ import ReactFlow, {
   Elements,
   Edge,
   Connection,
+  Controls,
+  Background,
+  MiniMap,
 } from "react-flow-renderer";
 import "./App.css";
 
@@ -68,7 +71,25 @@ const App = () => {
         onElementsRemove={onElementsRemove}
         onConnect={onConnect}
         deleteKeyCode={46}
-      />
+      >
+        <MiniMap
+          nodeStrokeColor={(n) => {
+            if (n.style?.background) return n.style.background.toString();
+            if (n.type === "input") return "#0041d0";
+            if (n.type === "output") return "#ff0072";
+            if (n.type === "default") return "#1a192b";
+            return "#eee";
+          }}
+          nodeColor={(n) => {
+            if (n.style?.background) return n.style.background.toString();
+
+            return '#fff';
+          }}
+          nodeBorderRadius={2}
+        />
+        <Controls />
+        <Background color="#aaa" gap={16} />
+      </ReactFlow>
     </div>
   );
 };
