@@ -1,3 +1,6 @@
+import { Grid } from "@mui/material";
+import { Box } from "@mui/system";
+
 export const DragPanel = () => {
   const onDragStart = (event: any, nodeType: any) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
@@ -5,31 +8,58 @@ export const DragPanel = () => {
   };
 
   return (
-    <aside>
-      <div className="description">
-        You can drag these nodes to the pane on the right.
-      </div>
-      <div
-        className="dndnode input"
-        onDragStart={(event) => onDragStart(event, "input")}
-        draggable
-      >
-        Input Node
-      </div>
-      <div
-        className="dndnode"
-        onDragStart={(event) => onDragStart(event, "default")}
-        draggable
-      >
-        Default Node
-      </div>
-      <div
-        className="dndnode output"
-        onDragStart={(event) => onDragStart(event, "output")}
-        draggable
-      >
-        Output Node
-      </div>
-    </aside>
+    <Grid container>
+      <Grid item xs={4}>
+        <Box
+          sx={{
+            m: 1,
+            p: 1,
+            fontSize: 16,
+            border: 1,
+            borderColor: "#0041D0",
+            borderRadius: 1,
+            textAlign: "center",
+          }}
+          onDragStart={(event) => onDragStart(event, "input")}
+          draggable
+        >
+          Input Node
+        </Box>
+      </Grid>
+      <Grid item xs={4}>
+        <Box
+          sx={{
+            m: 1,
+            p: 1,
+            fontSize: 16,
+            border: 1,
+            borderRadius: 1,
+            borderColor: "#1a192b",
+            textAlign: "center",
+          }}
+          onDragStart={(event) => onDragStart(event, "default")}
+          draggable
+        >
+          Default Node
+        </Box>
+      </Grid>
+      <Grid item xs={4}>
+        <Box
+          sx={{
+            m: 1,
+            p: 1,
+            fontSize: 16,
+            border: 1,
+            borderRadius: 1,
+            borderColor: "#FF80b9",
+            textAlign: "center",
+          }}
+          onDragStart={(event) => onDragStart(event, "output")}
+          draggable
+        >
+          Output Node
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
