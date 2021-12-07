@@ -132,11 +132,9 @@ const App = () => {
     <>
       <ReactFlowProvider>
         <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <DragPanel />
-          </Grid>
           <Grid item xs={8}>
-            <div style={{ height: 300 }} ref={reactFlowWrapper}>
+            <DragPanel />
+            <div style={{ height: 400 }} ref={reactFlowWrapper}>
               <ReactFlow
                 elements={elements}
                 onElementsRemove={onElementsRemove}
