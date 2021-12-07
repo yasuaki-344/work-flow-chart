@@ -1,5 +1,5 @@
-import { Grid } from "@mui/material";
-import React, { useRef, useState } from "react";
+import { Grid, TextField } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import ReactFlow, {
   removeElements,
   addEdge,
@@ -94,6 +94,25 @@ const App = () => {
    */
   const background = <Background color="#aaa" gap={16} />;
 
+  const [nodeName, setNodeName] = useState("Node 1");
+
+  useEffect(() => {
+    setElements((els: any) =>
+      els.map((el: any) => {
+        if (el.id === "1") {
+          // it's important that you create a new object here
+          // in order to notify react flow about the change
+          el.data = {
+            ...el.data,
+            label: nodeName,
+          };
+        }
+
+        return el;
+      })
+    );
+  }, [nodeName, setElements]);
+
   return (
     <>
       <ReactFlowProvider>
@@ -117,21 +136,14 @@ const App = () => {
             </div>
           </Grid>
           <Grid item xs={4}>
-            <div>
-              <div>
-                <label>label:</label>
-                <input
-                // value={nodeName}
-                // onChange={(evt) => setNodeName(evt.target.value)}
-                />
-              </div>
-              <div>
-                <label>background:</label>
-                <input
-                //  value={nodeBg} onChange={(evt) => setNodeBg(evt.target.value)}
-                />
-              </div>
-            </div>
+            <TextField
+              sx={{ mt: 2 }}
+              required
+              size="small"
+              label="label"
+              value={nodeName}
+              onChange={(evt) => setNodeName(evt.target.value)}
+            />
           </Grid>
         </Grid>
       </ReactFlowProvider>
