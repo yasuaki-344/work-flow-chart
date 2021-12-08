@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  addEdge,
   Connection,
   Edge,
   Elements,
@@ -39,6 +38,16 @@ export class Controller {
    * @returns
    */
   connectNodes = (params: Edge<any> | Connection): void => {
-    this.setElements((els: Elements) => addEdge(params, els));
+    const { source, target } = params;
+    this.setElements((els: Elements) => {
+      return els.concat({
+        id: `edge-${source}-${target}`,
+        source: `${source}`,
+        target: `${target}`,
+        type: "step",
+        label: `action-${source}-${target}`,
+        animated: false,
+      })
+    });
   };
 }
