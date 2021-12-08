@@ -1,7 +1,6 @@
 import { Grid, TextField } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import ReactFlow, {
-  removeElements,
   addEdge,
   Elements,
   Edge,
@@ -11,7 +10,6 @@ import ReactFlow, {
   ReactFlowProvider,
 } from "react-flow-renderer";
 import { DragPanel } from "./DragPanel";
-import { initialElements } from "./InitialElement";
 import "./App.css";
 import { FlowMiniMap } from "./FlowMiniMap";
 import { Controller } from "./Controller";
@@ -20,19 +18,10 @@ let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 const App = () => {
-  // eslint-disable-next-line
   const controller: Controller = new Controller();
 
   const reactFlowWrapper = useRef<any | null>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any | null>(null);
-  const [elements, setElements] = useState<any>(initialElements);
-  /**
-   * Called when user removes node or edge
-   * @param elementsToRemove
-   * @returns
-   */
-  const onElementsRemove = (elementsToRemove: Elements) =>
-    setElements((els: Elements) => removeElements(elementsToRemove, els));
 
   /**
    * Called when user connects two nodes
@@ -40,7 +29,7 @@ const App = () => {
    * @returns
    */
   const onConnect = (params: Edge<any> | Connection) =>
-    setElements((els: Elements) => addEdge(params, els));
+    controller.setElements((els: Elements) => addEdge(params, els));
 
   const onLoad = (_reactFlowInstance: any) =>
     setReactFlowInstance(_reactFlowInstance);
@@ -67,7 +56,7 @@ const App = () => {
           position,
           data: { label: `${type} node` },
         };
-        setElements((es: any) => es.concat(newNode));
+        controller.setElements((es: any) => es.concat(newNode));
       }
     }
   };
@@ -80,7 +69,7 @@ const App = () => {
   const [nodeName, setNodeName] = useState("Node 1");
 
   useEffect(() => {
-    setElements((els: any) =>
+    controller.setElements((els: any) =>
       els.map((el: any) => {
         if (el.id === "1") {
           // it's important that you create a new object here
@@ -90,11 +79,11 @@ const App = () => {
             label: nodeName,
           };
         }
-
         return el;
       })
     );
-  }, [nodeName, setElements]);
+    // eslint-disable-next-line
+  }, [nodeName]);
 
   return (
     <>
@@ -104,8 +93,8 @@ const App = () => {
             <DragPanel />
             <div style={{ height: 400 }} ref={reactFlowWrapper}>
               <ReactFlow
-                elements={elements}
-                onElementsRemove={onElementsRemove}
+                elements={controller.elements}
+                onElementsRemove={controller.removeElements}
                 onConnect={onConnect}
                 deleteKeyCode={46}
                 onLoad={onLoad}
