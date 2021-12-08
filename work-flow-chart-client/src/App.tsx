@@ -14,11 +14,15 @@ import { DragPanel } from "./DragPanel";
 import { initialElements } from "./InitialElement";
 import "./App.css";
 import { FlowMiniMap } from "./FlowMiniMap";
+import { Controller } from "./Controller";
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 const App = () => {
+  // eslint-disable-next-line
+  const controller: Controller = new Controller();
+
   const reactFlowWrapper = useRef<any | null>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any | null>(null);
   const [elements, setElements] = useState<any>(initialElements);
