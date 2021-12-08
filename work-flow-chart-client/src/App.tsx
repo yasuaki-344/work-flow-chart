@@ -82,7 +82,11 @@ const App = () => {
             <div style={{ height: 400 }} ref={reactFlowWrapper}>
               <ReactFlow
                 elements={controller.elements}
+                onElementClick={(_, element) => {
+                  console.log(element);
+                }}
                 onElementsRemove={controller.removeElements}
+                onNodeDoubleClick={() => {}}
                 onConnect={controller.connectNodes}
                 deleteKeyCode={46}
                 onLoad={onLoad}
