@@ -8,12 +8,12 @@ import ReactFlow, {
   Connection,
   Controls,
   Background,
-  MiniMap,
   ReactFlowProvider,
 } from "react-flow-renderer";
 import { DragPanel } from "./DragPanel";
 import { initialElements } from "./InitialElement";
 import "./App.css";
+import { FlowMiniMap } from "./FlowMiniMap";
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -37,27 +37,6 @@ const App = () => {
    */
   const onConnect = (params: Edge<any> | Connection) =>
     setElements((els: Elements) => addEdge(params, els));
-
-  /**
-   * minimap setting
-   */
-  const minimap = (
-    <MiniMap
-      nodeStrokeColor={(n) => {
-        if (n.style?.background) return n.style.background.toString();
-        if (n.type === "input") return "#0041d0";
-        if (n.type === "output") return "#ff0072";
-        if (n.type === "default") return "#1a192b";
-        return "#eee";
-      }}
-      nodeColor={(n) => {
-        if (n.style?.background) return n.style.background.toString();
-
-        return "#fff";
-      }}
-      nodeBorderRadius={2}
-    />
-  );
 
   const onLoad = (_reactFlowInstance: any) =>
     setReactFlowInstance(_reactFlowInstance);
@@ -129,7 +108,7 @@ const App = () => {
                 onDrop={onDrop}
                 onDragOver={onDragOver}
               >
-                {minimap}
+                <FlowMiniMap />
                 <Controls />
                 {background}
               </ReactFlow>
