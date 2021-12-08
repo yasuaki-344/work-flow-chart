@@ -3,6 +3,7 @@ import {
   Connection,
   Edge,
   Elements,
+  Node,
   removeElements,
 } from "react-flow-renderer";
 import { initialElements } from "./InitialElement";
@@ -12,11 +13,20 @@ export class Controller {
 
   readonly setElements: React.Dispatch<React.SetStateAction<Elements>>;
 
+  readonly data: any;
+
+  readonly setData: React.Dispatch<React.SetStateAction<any>>;
+
   constructor() {
     // eslint-disable-next-line
     const [elements, setElements] = useState<Elements>(initialElements);
     this.elements = elements;
     this.setElements = setElements;
+
+    // eslint-disable-next-line
+    const [data, setData] = useState({});
+    this.data = data;
+    this.setData = setData;
   }
 
   /**
@@ -28,7 +38,7 @@ export class Controller {
     this.setElements((els: Elements) => removeElements(elementsToRemove, els));
   };
 
-  addNode(newNode: any) {
+  addNode(newNode: any): void {
     this.setElements((es: Elements) => es.concat(newNode));
   }
 
@@ -47,7 +57,14 @@ export class Controller {
         type: "step",
         label: `action-${source}-${target}`,
         animated: false,
-      })
+      });
     });
+  };
+
+  setEditTarget = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    node: Node<any>
+  ): void => {
+    this.setData(node);
   };
 }

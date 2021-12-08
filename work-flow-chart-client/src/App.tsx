@@ -86,7 +86,7 @@ const App = () => {
                   console.log(element);
                 }}
                 onElementsRemove={controller.removeElements}
-                onNodeDoubleClick={() => {}}
+                onNodeDoubleClick={controller.setEditTarget}
                 onConnect={controller.connectNodes}
                 deleteKeyCode={46}
                 onLoad={onLoad}
@@ -108,6 +108,7 @@ const App = () => {
               value={nodeName}
               onChange={(evt) => setNodeName(evt.target.value)}
             />
+            {JSON.stringify(controller.data)}
           </Grid>
         </Grid>
       </ReactFlowProvider>
