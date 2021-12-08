@@ -29,6 +29,10 @@ export class Controller {
     this.setElements((els: Elements) => removeElements(elementsToRemove, els));
   };
 
+  addNode(newNode: any) {
+    this.setElements((es: Elements) => es.concat(newNode));
+  }
+
   /**
    * Called when user connects two nodes
    * @param params

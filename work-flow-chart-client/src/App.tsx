@@ -44,7 +44,7 @@ const App = () => {
           position,
           data: { label: `${type} node` },
         };
-        controller.setElements((es: any) => es.concat(newNode));
+        controller.addNode(newNode);
       }
     }
   };
