@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Elements, removeElements } from "react-flow-renderer";
+import {
+  addEdge,
+  Connection,
+  Edge,
+  Elements,
+  removeElements,
+} from "react-flow-renderer";
 import { initialElements } from "./InitialElement";
 
 export class Controller {
@@ -21,5 +27,14 @@ export class Controller {
    */
   removeElements = (elementsToRemove: Elements): void => {
     this.setElements((els: Elements) => removeElements(elementsToRemove, els));
+  };
+
+  /**
+   * Called when user connects two nodes
+   * @param params
+   * @returns
+   */
+  connectNodes = (params: Edge<any> | Connection): void => {
+    this.setElements((els: Elements) => addEdge(params, els));
   };
 }

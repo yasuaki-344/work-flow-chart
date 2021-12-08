@@ -1,10 +1,6 @@
 import { Grid, TextField } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import ReactFlow, {
-  addEdge,
-  Elements,
-  Edge,
-  Connection,
   Controls,
   Background,
   ReactFlowProvider,
@@ -22,14 +18,6 @@ const App = () => {
 
   const reactFlowWrapper = useRef<any | null>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any | null>(null);
-
-  /**
-   * Called when user connects two nodes
-   * @param params
-   * @returns
-   */
-  const onConnect = (params: Edge<any> | Connection) =>
-    controller.setElements((els: Elements) => addEdge(params, els));
 
   const onLoad = (_reactFlowInstance: any) =>
     setReactFlowInstance(_reactFlowInstance);
@@ -95,7 +83,7 @@ const App = () => {
               <ReactFlow
                 elements={controller.elements}
                 onElementsRemove={controller.removeElements}
-                onConnect={onConnect}
+                onConnect={controller.connectNodes}
                 deleteKeyCode={46}
                 onLoad={onLoad}
                 onDrop={onDrop}
