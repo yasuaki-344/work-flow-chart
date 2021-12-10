@@ -87,15 +87,29 @@ const App = () => {
             </div>
           </Grid>
           <Grid item xs={4}>
-            <TextField
-              sx={{ mt: 2 }}
-              required
-              size="small"
-              label="label"
-              value={nodeName}
-              onChange={(evt) => setNodeName(evt.target.value)}
-            />
-            {JSON.stringify(controller.targetEdges)}
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <TextField
+                  sx={{ mt: 2 }}
+                  required
+                  size="small"
+                  label="label"
+                  value={nodeName}
+                  onChange={(evt) => setNodeName(evt.target.value)}
+                />
+              </Grid>
+              {controller.targetEdges.map((x: any, index: number) => (
+                <Grid item xs={12}>
+                  <TextField
+                    key={x.id}
+                    required
+                    size="small"
+                    label={`connection ${index + 1}`}
+                    value={x.label}
+                  />
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
         </Grid>
       </ReactFlowProvider>

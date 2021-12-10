@@ -36,7 +36,7 @@ export class Controller {
     this.setTargetId = setTargetId;
 
     // eslint-disable-next-line
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
     this.targetEdges = data;
     this.setTargetEdges = setData;
   }
