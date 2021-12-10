@@ -4,6 +4,7 @@ import ReactFlow, {
   Controls,
   Background,
   ReactFlowProvider,
+  Node,
 } from "react-flow-renderer";
 import { DragPanel } from "./DragPanel";
 import "./App.css";
@@ -48,21 +49,16 @@ const App = () => {
   const [nodeName, setNodeName] = useState("Node 1");
 
   useEffect(() => {
-    controller.setElements((els: any) =>
-      els.map((el: any) => {
-        if (el.id === "1") {
-          // it's important that you create a new object here
-          // in order to notify react flow about the change
-          el.data = {
-            ...el.data,
-            label: nodeName,
-          };
-        }
-        return el;
-      })
-    );
-    // eslint-disable-next-line
+    controller.updateNodeLabel(nodeName);
   }, [nodeName]);
+
+  const handleNodeDoubleClick = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    node: Node<any>
+  ) => {
+    controller.setEditTarget(event, node);
+    setNodeName(node.data.label);
+  };
 
   return (
     <>
@@ -77,7 +73,7 @@ const App = () => {
                   console.log(element);
                 }}
                 onElementsRemove={controller.removeElements}
-                onNodeDoubleClick={controller.setEditTarget}
+                onNodeDoubleClick={handleNodeDoubleClick}
                 onConnect={controller.connectNodes}
                 deleteKeyCode={46}
                 onLoad={onLoad}

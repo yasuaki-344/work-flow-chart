@@ -14,11 +14,15 @@ const getId = () => `dndnode_${id++}`;
 export class Controller {
   readonly elements: Elements;
 
-  readonly setElements: React.Dispatch<React.SetStateAction<Elements>>;
+  readonly targetId: string;
 
   readonly data: any;
 
-  readonly setData: React.Dispatch<React.SetStateAction<any>>;
+  private readonly setElements: React.Dispatch<React.SetStateAction<Elements>>;
+
+  private readonly setTargetId: React.Dispatch<React.SetStateAction<string>>;
+
+  private readonly setData: React.Dispatch<React.SetStateAction<any>>;
 
   constructor() {
     // eslint-disable-next-line
@@ -27,9 +31,30 @@ export class Controller {
     this.setElements = setElements;
 
     // eslint-disable-next-line
+    const [targetId, setTargetId] = useState("");
+    this.targetId = targetId;
+    this.setTargetId = setTargetId;
+
+    // eslint-disable-next-line
     const [data, setData] = useState({});
     this.data = data;
     this.setData = setData;
+  }
+
+  updateNodeLabel(label: string): void {
+    this.setElements((els: any) =>
+      els.map((el: any) => {
+        if (el.id === this.targetId) {
+          // it's important that you create a new object here
+          // in order to notify react flow about the change
+          el.data = {
+            ...el.data,
+            label,
+          };
+        }
+        return el;
+      })
+    );
   }
 
   /**
@@ -74,6 +99,7 @@ export class Controller {
     event: React.MouseEvent<Element, MouseEvent>,
     node: Node<any>
   ): void => {
+    this.setTargetId(node.id);
     this.setData(node);
   };
 }
