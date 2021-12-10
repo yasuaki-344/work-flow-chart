@@ -8,6 +8,9 @@ import {
 } from "react-flow-renderer";
 import { initialElements } from "./InitialElement";
 
+let id = 0;
+const getId = () => `dndnode_${id++}`;
+
 export class Controller {
   readonly elements: Elements;
 
@@ -38,7 +41,13 @@ export class Controller {
     this.setElements((els: Elements) => removeElements(elementsToRemove, els));
   };
 
-  addNode(newNode: any): void {
+  addNode(type: string, position: any): void {
+    const newNode = {
+      id: getId(),
+      type,
+      position,
+      data: { label: `${type} node` },
+    };
     this.setElements((es: Elements) => es.concat(newNode));
   }
 

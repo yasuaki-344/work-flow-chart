@@ -10,9 +10,6 @@ import "./App.css";
 import { FlowMiniMap } from "./FlowMiniMap";
 import { Controller } from "./Controller";
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
-
 const App = () => {
   const controller: Controller = new Controller();
 
@@ -38,13 +35,7 @@ const App = () => {
           x: event.clientX - reactFlowBounds.left,
           y: event.clientY - reactFlowBounds.top,
         });
-        const newNode = {
-          id: getId(),
-          type,
-          position,
-          data: { label: `${type} node` },
-        };
-        controller.addNode(newNode);
+        controller.addNode(type, position);
       }
     }
   };
