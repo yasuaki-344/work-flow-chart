@@ -125,4 +125,13 @@ export class Controller {
         })
     );
   };
+
+  getConnections(id: string): any[] {
+    return this.elements
+      .filter((x: any) => x.source !== undefined)
+      .filter((x: any) => x.source === id)
+      .map((x: any) => {
+        return { id: x.id, label: x.label };
+      })
+  };
 }

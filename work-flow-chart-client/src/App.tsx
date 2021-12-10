@@ -48,6 +48,8 @@ const App = () => {
 
   const [nodeName, setNodeName] = useState("Node 1");
 
+  const [edges, setEdges] = useState<any[]>([]);
+
   useEffect(() => {
     controller.updateNodeLabel(nodeName);
   }, [nodeName]);
@@ -58,6 +60,9 @@ const App = () => {
   ) => {
     controller.setEditTarget(event, node);
     setNodeName(node.data.label);
+    if (node.id !== null) {
+      setEdges(controller.getConnections(node.id));
+    }
   };
 
   return (
@@ -98,7 +103,7 @@ const App = () => {
                   onChange={(evt) => setNodeName(evt.target.value)}
                 />
               </Grid>
-              {controller.targetEdges.map((x: any, index: number) => (
+              {edges.map((x: any, index: number) => (
                 <Grid item xs={12}>
                   <TextField
                     key={x.id}
@@ -106,8 +111,15 @@ const App = () => {
                     size="small"
                     label={`connection ${index + 1}`}
                     value={x.label}
-                    onChange={e => {
-                      controller.updateEdge(x.id, e.target.value);
+                    onChange={(e) => {
+                      setEdges(
+                        edges.map((y) => {
+                          if (y.id === x.id) {
+                            return { ...y, label: e.target.value };
+                          }
+                          return y;
+                        })
+                      );
                     }}
                   />
                 </Grid>
