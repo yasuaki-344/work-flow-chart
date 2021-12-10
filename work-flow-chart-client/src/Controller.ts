@@ -57,6 +57,22 @@ export class Controller {
     );
   }
 
+  updateEdge(id: number, label: string): void {
+    console.log(id)
+    console.log(label)
+    this.setElements((els: any) =>
+      els.map((el: any) => {
+        if (el.id === id) {
+          return {
+            ...el,
+            label,
+          };
+        }
+        return el;
+      })
+    );
+  }
+
   /**
    * Called when user removes node or edge
    * @param elementsToRemove

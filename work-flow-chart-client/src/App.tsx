@@ -106,6 +106,9 @@ const App = () => {
                     size="small"
                     label={`connection ${index + 1}`}
                     value={x.label}
+                    onChange={e => {
+                      controller.updateEdge(x.id, e.target.value);
+                    }}
                   />
                 </Grid>
               ))}
