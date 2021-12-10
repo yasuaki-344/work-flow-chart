@@ -57,16 +57,12 @@ export class Controller {
     );
   }
 
-  updateEdge(id: number, label: string): void {
-    console.log(id)
-    console.log(label)
+  updateEdges(edges: any[]): void {
     this.setElements((els: any) =>
       els.map((el: any) => {
-        if (el.id === id) {
-          return {
-            ...el,
-            label,
-          };
+        const edge = edges.find(x => x.id === el.id);
+        if (edge != null) {
+          el.label = edge.label;
         }
         return el;
       })
@@ -132,6 +128,6 @@ export class Controller {
       .filter((x: any) => x.source === id)
       .map((x: any) => {
         return { id: x.id, label: x.label };
-      })
-  };
+      });
+  }
 }

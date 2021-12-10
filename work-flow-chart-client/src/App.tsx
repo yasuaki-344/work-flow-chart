@@ -54,6 +54,10 @@ const App = () => {
     controller.updateNodeLabel(nodeName);
   }, [nodeName]);
 
+  useEffect(() => {
+    controller.updateEdges(edges);
+  }, [edges])
+
   const handleNodeDoubleClick = (
     event: React.MouseEvent<Element, MouseEvent>,
     node: Node<any>
