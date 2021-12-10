@@ -95,7 +95,7 @@ const App = () => {
               value={nodeName}
               onChange={(evt) => setNodeName(evt.target.value)}
             />
-            {JSON.stringify(controller.data)}
+            {JSON.stringify(controller.targetEdges)}
           </Grid>
         </Grid>
       </ReactFlowProvider>

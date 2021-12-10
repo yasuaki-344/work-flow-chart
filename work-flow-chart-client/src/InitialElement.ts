@@ -30,5 +30,5 @@ export const initialElements = [
     label: "edge label",
     animated: false,
   },
-  { id: "e2-3", source: "2", target: "3", type: "smoothstep" },
+  { id: "e2-3", source: "2", target: "3", type: "smoothstep", label: "label" },
 ];

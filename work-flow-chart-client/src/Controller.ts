@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Connection,
   Edge,
@@ -16,17 +16,17 @@ export class Controller {
 
   readonly targetId: string;
 
-  readonly data: any;
+  readonly targetEdges: any;
 
-  private readonly setElements: React.Dispatch<React.SetStateAction<Elements>>;
+  private readonly setElements: Dispatch<SetStateAction<any>>;
 
-  private readonly setTargetId: React.Dispatch<React.SetStateAction<string>>;
+  private readonly setTargetId: Dispatch<SetStateAction<string>>;
 
-  private readonly setData: React.Dispatch<React.SetStateAction<any>>;
+  private readonly setTargetEdges: Dispatch<SetStateAction<any>>;
 
   constructor() {
     // eslint-disable-next-line
-    const [elements, setElements] = useState<Elements>(initialElements);
+    const [elements, setElements] = useState<any>(initialElements);
     this.elements = elements;
     this.setElements = setElements;
 
@@ -37,8 +37,8 @@ export class Controller {
 
     // eslint-disable-next-line
     const [data, setData] = useState({});
-    this.data = data;
-    this.setData = setData;
+    this.targetEdges = data;
+    this.setTargetEdges = setData;
   }
 
   updateNodeLabel(label: string): void {
@@ -100,6 +100,13 @@ export class Controller {
     node: Node<any>
   ): void => {
     this.setTargetId(node.id);
-    this.setData(node);
+    this.setTargetEdges(
+      this.elements
+        .filter((x: any) => x.source !== undefined)
+        .filter((x: any) => x.source === node.id)
+        .map((x: any) => {
+          return { id: x.id, label: x.label };
+        })
+    );
   };
 }
